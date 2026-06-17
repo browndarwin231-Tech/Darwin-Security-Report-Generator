@@ -1,8 +1,6 @@
 # Darwin Security Report Generator
 
-A beginner-friendly SOC analyst project that generates cybersecurity incident reports based on detected security events.
-
-The tool analyzes security events and produces a summary report with an overall risk level and recommended remediation actions.
+Python cybersecurity tool that generates incident reports from security events including failed logins, phishing URLs, IOC detections, and file integrity alerts.
 
 ---
 
