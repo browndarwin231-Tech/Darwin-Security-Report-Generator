@@ -1,25 +1,47 @@
-incident = input("Enter incident: ")
-severity = input("Enter severity (Low, Medium, High): ")
+failed_logins = 0
+phishing_urls = 0
+ioc_count = 0
+file_modified = False
 
-report = f"""
-=== Security Report ===
+print("=== Darwin Security Report Generator ===\n")
 
-Incident:
-{incident}
+with open("security_events.txt", "r") as file:
+    events = file.readlines()
 
-Severity:
-{severity}
+for event in events:
+    event = event.strip()
 
-Status:
-Open
+    if event == "FAILED_LOGIN":
+        failed_logins += 1
 
-Analyst:
-Darwin Brown
-"""
+    elif event == "PHISHING_URL":
+        phishing_urls += 1
 
-print(report)
+    elif event == "IOC_FOUND":
+        ioc_count += 1
 
-with open("security_report.txt", "w") as file:
-    file.write(report)
+    elif event == "FILE_MODIFIED":
+        file_modified = True
 
-print("Report saved successfully.")
+print("========== INCIDENT REPORT ==========\n")
+
+print(f"Failed Login Attempts : {failed_logins}")
+print(f"Phishing URLs Found  : {phishing_urls}")
+print(f"IOCs Detected         : {ioc_count}")
+
+if file_modified:
+    print("File Integrity        : MODIFIED")
+else:
+    print("File Integrity        : CLEAN")
+
+print()
+
+if failed_logins >= 3 or phishing_urls >= 2 or file_modified:
+    print("Overall Risk Level : HIGH")
+    print("\nRecommendations:")
+    print("- Investigate affected accounts")
+    print("- Block malicious URLs")
+    print("- Review endpoint logs")
+    print("- Restore modified files if necessary")
+else:
+    print("Overall Risk Level : LOW")
